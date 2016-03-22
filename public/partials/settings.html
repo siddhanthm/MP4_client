@@ -1,16 +1,19 @@
-<div class="list" ng-controller='SettingsController'>		
+<div class="large-10 large-centered" id = "settings">		
 	<form>
-	  <div class="row">
-          <div class="small-12 columns">
-            <input ng-model="url" type="text" placeholder="URL">
-          </div>
-      </div>
 
-    <div class="text-center">
-      <button ng-click="setUrl()" class="button tiny info">Set URL</button>
+    <div class="small-12 columns">
+      <p> Back-end URL: </p>
+      <input ng-model="url" type="text" placeholder="URL" ng-required="true">
     </div>
 
-    {{displayText}}
+
+    <div class="text-center small-12">
+      <button ng-click="setUrl()" class="button">Set URL</button>
+    </div>
+
+    <div class="text-center">
+      {{displayText}}
+    </div>
 
   </form>
 </div>

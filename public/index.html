@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>MP4 Starter</title>
+    <title>Task Manager</title>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/styles.css">
@@ -19,11 +19,14 @@
 
 <body ng-app="mp4">
 
-    <div class="row text-center">
-    	<a class="button" href="#/settings">Settings</a>
-    	<a class="button" href="#/llamalist">Llama List</a>
-        <a class="button" href="#/firstview">First View</a>
-        <a class="button" href="#/secondview">Second View</a>
+    <div class="large-centered large-8 text-center heading">
+        Awesome Task Manager
+    </div>
+
+    <div class="large-centered large-8 text-center">
+        <a class="button" href="#/settings">Settings</a>
+        <a class="button" href="#/user">Users</a>
+        <a class="button" href="#/tasks">Tasks</a>
     </div>
 
     <div ng-view></div>

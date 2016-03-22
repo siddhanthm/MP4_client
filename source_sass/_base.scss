@@ -1,1 +1,188 @@
 // Add any custom Sass & CSS here
+@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
+
+body{
+	background-color: $blue-color;
+	color: white;
+}
+
+.heading{
+	font-size: 3.5em;
+	padding: 30px;
+	padding-bottom: 20px;
+}
+
+#adduser{
+	margin-top: 50px;
+	.page_heading{
+		font-size: 2em;
+		padding: 20px;
+		padding-left: 0px;
+	}
+
+	.button{
+		float: right;
+		margin-top: 20px;
+	}
+}
+
+#settings{
+	margin-top: 50px;
+	p{
+		font-size: 2em;
+		padding: 20px;
+		padding-left: 0px;
+	}
+	.button{
+		float: right;
+		margin-right: 10px;
+		margin-top: 20px;
+	}
+}
+
+#user{
+	margin-top: 50px;
+	.page_heading{
+		font-size: 2em;
+		padding: 20px;
+	}
+
+	a{
+		text-decoration: none;
+		color: white;
+		text-align: right;
+	}
+	.fa-trash:hover{
+		color: #DA3637;
+	}
+
+	.userlist{
+		background-color: white;
+		color: $blue-color;
+		min-height: 50px;
+		margin-top: 30px;
+		margin-bottom: 30px;
+		padding-top: 15px;
+		transition: 1s ease all;
+
+		a{
+			text-decoration: none;
+			color: $blue-color;
+		}
+	}
+	.userlist:hover{
+		transform: scale(1.1);
+	}
+}
+
+#addtask{
+	margin-top: 30px;
+	.page_heading{
+		font-size: 2em;
+		padding: 20px;
+		padding-left: 0px;
+	}
+
+	.button{
+		float: right;
+		margin-top: 15px;
+	}
+}
+
+#userdetail{
+	margin-top: 50px;
+	.outer_box{
+		min-height: 400px;
+		background-color: white;
+		color: $blue-color;
+		padding: 40px;
+		.box-heading{
+			font-size: 2em;
+			a{
+				text-decoration: none;
+				color: $blue-color;
+			}
+		}
+		.other-text{
+			margin-top: 20px;
+			padding-left: 20px;
+			.task_user{
+				color: #f07c17;
+				font-size: 1.5em;
+				padding-bottom: 20px;
+				a{
+					text-decoration: none;
+					color: #f07c17;
+				}
+			}
+		}
+		.fa-check{
+			color: red;
+		}
+		.fa-check:hover{
+			color: green;
+		}
+		.task-done{
+			color: green;
+		}
+	}
+}
+
+#tasks{
+	margin-top: 50px;
+	.page_heading{
+		font-size: 2em;
+		padding: 20px;
+	}
+
+	a{
+		text-decoration: none;
+		color: white;
+		text-align: right;
+	}
+
+	.options{
+		background-color: white;
+		padding: 20px;
+		color: $blue-color;
+	}
+
+	.tasklist{
+		background-color: white;
+		color: $blue-color;
+		min-height: 70px;
+		padding: 15px;
+		margin-top: 30px;
+		margin-bottom: 30px;
+		transition: 1s ease all;
+
+		a{
+			text-decoration: none;
+			color: $blue-color;
+		}
+	}
+	.tasklist:hover{
+		transform: scale(1.1);
+	}
+	.fa-trash:hover{
+		color: #DA3637;
+	}
+	
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid #DA3637;
+}
+
+input.ng-valid.ng-touched {
+  border: 1px solid #509D12;
+}
+
+.ng-invalid .button {
+  background: gray;
+}
+
+.error {
+  color: red;
+  padding-bottom: 10px;
+}

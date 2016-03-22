@@ -1,0 +1,27 @@
+<div class="large-10 large-centered" id = "user">
+  <div class="large-12 row">
+    <div class="large-8 columns page_heading">Users</div>
+    <div class="large-2 columns text-right page_heading"><a class="fa fa-plus" href="#/adduser"></a></div>
+  </div>
+  <div class="large-12 row">
+    <div ng-repeat="user in users" class = "userlist large-12">
+      <a href="#/user/{{user._id}}">
+        <div class="small-5 columns text-left"><b>{{user.name}}</b></div>
+        <div class="small-5 columns text-left">{{user.email}}</div>
+        <div class="small-2 columns text-center"><i class="fa fa-trash"></i></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+  <div class="large-12 gallerys">
+    <div ng-repeat="item in movies | filter:myfilterBy" class="large-3 small-6 columns gallery_box">
+      <a href="#/details/{{movies.indexOf(item)}}"> 
+      <div class="large-12 inner_box" style ="background-image: url('./data/images/{{item.imdbID}}.jpg');">
+      </div>
+      </a>
+    </div>
+  </div>
+-->

@@ -1,0 +1,37 @@
+<div class="large-10 large-centered" id = "addtask">
+	<div class="large-10 large-centered page_heading">Add Task</div>
+	<div class="large-10 large-centered">
+	<form name = "myform" ng-submit="register()" novalidate>
+		<fieldset>
+			Name<font color="red">*</font>
+			<input type="text" name="name" 
+        		placeholder="Name"
+        		ng-model="user.name"
+        		ng-required="true">
+        	<p class="error validationerror text-center" ng-show="myform.name.$invalid && myform.name.$touched">
+        		You must fill out the task's name.
+        	</p>
+        	Description
+			<input type="text" name="descrip" 
+        		placeholder="Description"
+        		ng-model="task.description">
+
+        	Deadline<font color="red">*</font>
+        	<input type="text" name="descrip" 
+        		placeholder="Description"
+        		ng-model="task.date"
+        		ng-required="true">
+
+        	User
+        	<input type="text" name="descrip" 
+        		placeholder="Description"
+        		ng-model="task.user">
+
+
+			
+
+		</fieldset>
+		<button type="submit" class="button">Submit</button>
+	</form>
+	</div>
+</div>

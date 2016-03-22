@@ -1,0 +1,27 @@
+<div class="large-10 large-centered" id = "adduser">
+	<div class="large-12 large-centered page_heading">Add User</div>
+	<div class="large-12 large-centered">
+	<form name = "myform" ng-submit="register()" novalidate>
+		<fieldset>
+			Name<font color="red">*</font>
+			<input type="text" name="name" 
+        		placeholder="Name"
+        		ng-model="user.name"
+        		ng-required="true">
+        	<p class="error validationerror text-center" ng-show="myform.name.$invalid && myform.name.$touched">
+        		You must fill out your name.
+        	</p>
+			Email<font color="red">*</font>
+			<input type="email" name="email"
+        		placeholder="Email" 
+        		ng-model="user.email"
+        		ng-required="true">
+        	<p class="error validationerror text-center" ng-show="myform.email.$invalid && myform.email.$touched">
+        		Enter a valid email-id.
+        	</p>
+
+		</fieldset>
+		<button type="submit" class="button">Submit</button>
+	</form>
+	</div>
+</div>

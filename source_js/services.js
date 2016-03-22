@@ -12,7 +12,7 @@ mp4Services.factory('CommonData', function(){
     }
 });
 
-mp4Services.factory('Llamas', function($http, $window) {
+mp4Services.factory('user', function($http, $window) {
     return {
         get : function() {
             var baseUrl = $window.sessionStorage.baseurl;
