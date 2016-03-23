@@ -22,6 +22,12 @@ app.config(['$routeProvider', function($routeProvider) {
   }).when('/user/:userID', {
     templateUrl: 'partials/userdetail.html',
     controller: 'UserDetail'
+  }).when('/task/:taskID', {
+    templateUrl: 'partials/taskdetail.html',
+    controller: 'TaskdetailCtrl'
+  }).when('/edit/:taskID', {
+    templateUrl: 'partials/edittask.html',
+    controller: 'EditTaskCtrl'
   }).
   otherwise({
     redirectTo: '/settings'

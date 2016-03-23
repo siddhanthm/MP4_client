@@ -1,0 +1,18 @@
+<div class="small-10 small-centered" id = "taskdetail">
+	<div class="small-12 outer_box">
+		<div class="box-heading small-12 row">
+			<div class="small-10 columns"><b>{{task.name}}</b></div>
+			<div class="small-2 columns text-right"><a class="fa fa-pencil" href="#/edit/{{task._id}}"></a></div>
+		</div>	
+		<div class="small-12 other-text row">
+			<div class="small-12 task_user row">Details:</div>
+			<div class="small-12 row">
+				<b>Description: </b>{{task.description}} <br><br>
+				<b>Assigned User: </b>{{task.assignedUserName}} <br><br>
+				<b>Date Created: </b>{{task.dateCreated}} <br><br>
+				<b>Deadline: </b>{{task.deadline}}<br><br>
+				<div class="small-12"><b>Completed: </b>{{task.completed}}          <i class="fa fa-refresh"></i></div>
+			</div>
+		</div>	
+	</div>
+</div>

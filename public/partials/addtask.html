@@ -6,7 +6,7 @@
 			Name<font color="red">*</font>
 			<input type="text" name="name" 
         		placeholder="Name"
-        		ng-model="user.name"
+        		ng-model="task.name"
         		ng-required="true">
         	<p class="error validationerror text-center" ng-show="myform.name.$invalid && myform.name.$touched">
         		You must fill out the task's name.
@@ -21,14 +21,15 @@
         		placeholder="Description"
         		ng-model="task.date"
         		ng-required="true">
+            <p class="error validationerror text-center" ng-show="myform.descrip.$invalid && myform.descrip.$touched">
+                You must fill out the task's deadline.
+            </p>
 
         	User
-        	<input type="text" name="descrip" 
-        		placeholder="Description"
-        		ng-model="task.user">
-
-
-			
+                <select ng-model="task.tasks_under">
+                  <option ng-repeat="user in users" value = "{{user._id}}">{{user.name}}</option>
+                </select>
+               
 
 		</fieldset>
 		<button type="submit" class="button">Submit</button>

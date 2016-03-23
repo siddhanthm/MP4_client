@@ -1,0 +1,46 @@
+<div class="small-10 small-centered" id = "edittaskdetail">
+	<div class="small-12 outer_box">
+		<div class="small-12 other-text row">
+			<div class="small-12 task_user row">Edit Details:</div>	
+		<form name = "myform" ng-submit="register()" novalidate>
+		<fieldset>
+			Name<font color="red">*</font>
+			<input type="text" name="name" 
+        		ng-model="name"
+        		ng-required="true">
+        	<p class="error validationerror text-center" ng-show="myform.name.$invalid && myform.name.$touched">
+        		You must fill out the task's name.
+        	</p>
+        	Description
+			<input type="text" name="description" 
+        		ng-model="description">
+
+        	Deadline<font color="red">*</font>
+        	<input type="text" name="deadline" 
+        		ng-model="deadline"
+        		ng-required="true">
+        	<p class="error validationerror text-center" ng-show="myform.deadline.$invalid && myform.deadline.$touched">
+        		You must fill out the task's deadline.
+        	</p>
+
+        	User:<br>
+        	<b> Assigned User: </b> {{task.assignedUserName}}<br>
+            <select ng-model="taskchanged.tasks_under">
+            	<option value = "Noone">Not Assigned</option>
+                <option ng-repeat="user in users" value = "{{user._id}}">{{user.name}}</option>
+            </select>
+
+            Completed<br>
+            <input type="radio" name = "TaskStatus" value=1  ng-model = "task_complete"  id="Completed">
+			<label for="Completed">Completed</label>
+    		<input type="radio" name = "TaskStatus" value=-1 ng-model = "task_complete"  id="Pending">
+    		<label for="Pending">Pending</label>
+               
+
+		</fieldset>
+		<div class="small-12 row">
+			<button type="submit" class="button">Update</button>
+		</div>
+	</form>
+	</div>
+</div>

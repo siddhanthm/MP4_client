@@ -116,6 +116,11 @@ body{
 				}
 			}
 		}
+		.task_item a{
+			text-decoration: none;
+			color: $blue-color;
+		}
+
 		.fa-check{
 			color: red;
 		}
@@ -147,6 +152,15 @@ body{
 		color: $blue-color;
 	}
 
+	.arrow{
+		margin:20px;
+		margin-top: 30px;
+		i:active{
+			color: #DA3637;
+		}
+	}
+
+
 	.tasklist{
 		background-color: white;
 		color: $blue-color;
@@ -168,6 +182,76 @@ body{
 		color: #DA3637;
 	}
 	
+}
+
+#taskdetail{
+	margin-top: 50px;
+	.outer_box{
+		min-height: 400px;
+		background-color: white;
+		color: $blue-color;
+		padding: 40px;
+		.box-heading{
+			font-size: 2em;
+			a{
+				text-decoration: none;
+				color: $blue-color;
+			}
+		}
+		.other-text{
+			margin-top: 10px;
+			padding-left: 35px;
+			.task_user{
+				color: #f07c17;
+				font-size: 1.7em;
+				padding-bottom: 20px;
+				a{
+					text-decoration: none;
+					color: #f07c17;
+				}
+			}
+			.completed{
+				padding-left: 0px;
+			}
+		}
+	}
+}
+
+#edittaskdetail{
+	margin-top: 50px;
+	.outer_box{
+		min-height: 400px;
+		background-color: white;
+		color: $blue-color;
+		padding: 40px;
+		.box-heading{
+			font-size: 2em;
+			a{
+				text-decoration: none;
+				color: $blue-color;
+			}
+		}
+		.other-text{
+			margin-top: 10px;
+			padding-left: 35px;
+			.task_user{
+				color: #f07c17;
+				font-size: 1.7em;
+				padding-bottom: 20px;
+				a{
+					text-decoration: none;
+					color: #f07c17;
+				}
+			}
+			.completed{
+				padding-left: 0px;
+			}
+		}
+		.button{
+			float: right;
+			margin-top: 10px;
+		}
+	}
 }
 
 input.ng-invalid.ng-touched {

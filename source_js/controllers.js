@@ -11,21 +11,53 @@ mp4Controllers.controller('SettingsController', ['$scope' , '$window' , function
 
 }]);
 
-mp4Controllers.controller('UserController', ['$scope','$http','$window', function ($scope, $http, $window) {
+mp4Controllers.controller('UserController', ['$scope','$http','$window','$location', function ($scope, $http, $window, $location) {
   $scope.users = "";
   var urlselect = '?select={"name":1,"_id":1,"email":1}';
   var url = $window.sessionStorage.baseurl + "/users" + urlselect;
   $http.get(url).success(function(data){
-    console.log(data);
-    console.log(data.data);
     $scope.users = data.data;
   });
+
+  $scope.delete = function(x){
+    console.log(x);
+    var deleteurl = $window.sessionStorage.baseurl + '/users/' + x;
+    console.log(deleteurl);
+    $http.delete(deleteurl).success(function(data){
+      console.log(data);
+      $http.get(url).success(function(data){
+        $scope.users = data.data;
+      });
+    });
+  }
 }]);
 
-mp4Controllers.controller('AddUser', ['$scope', function ($scope) {
-   $scope.register = function() {
-    console.log($scope.user);
-  };
+mp4Controllers.controller('AddUser', ['$scope','$http','$window', function ($scope, $http, $window) {
+  $scope.message = "";
+  $scope.register = function() {
+    if($scope.name == undefined || $scope.email == undefined){
+      $scope.message = "Name or Email not filled.";
+    }else{
+      var url = $window.sessionStorage.baseurl + '/users?where={"email":"' + $scope.email +'"}';
+      $http.get(url).success(function(data,status){
+        if(data.data.length == 1){
+          $scope.message = "User Already Exist";
+        }else{
+          var data2send = {"name":$scope.name, "email":$scope.email};
+          var urlpost = $window.sessionStorage.baseurl + "/users";
+          $http.post(urlpost, data2send).success(function(data){
+            $scope.message = data.message;
+          }).error(function(data){
+            $scope.message = data.message;
+          });
+        }
+      }).error(function(data,status,header, config){
+        console.log(data);
+        console.log(status);
+        console.log(config);
+      });
+    }
+  }
 }]);
 
 mp4Controllers.controller('TasksCtrl', ['$scope','$http','$window', function ($scope, $http, $window) {
@@ -81,8 +113,30 @@ mp4Controllers.controller('TasksCtrl', ['$scope','$http','$window', function ($s
   }
 }]);
 
-mp4Controllers.controller('AddTask', ['$scope', function ($scope) {
+mp4Controllers.controller('AddTask', ['$scope','$window','$http', function ($scope, $window, $http) {
+  $scope.users = "";
+  var urlselect = '?select={"name":1,"_id":1}';
+  var url = $window.sessionStorage.baseurl + "/users" + urlselect;
   
+  /*$http.get(url).then(function successCallback(response){
+    console.log(response);
+    $scope.users = response.data.data;
+  }, function errorCallback(response){
+      console.log("failed to get data");
+  });*/
+
+  $http.get(url).success(function(data){
+    console.log(data);
+    $scope.users = data.data;
+  }).error(function(data,status,header, config){
+    console.log(data);
+    console.log(status);
+    console.log(config);
+  });
+
+  $scope.register = function(){
+    console.log($scope.task);
+  }
 }]);
 
 mp4Controllers.controller('UserDetail', ['$scope','$routeParams','$http','$window', 
@@ -114,6 +168,58 @@ mp4Controllers.controller('UserDetail', ['$scope','$routeParams','$http','$windo
   };
 
 }]);
+
+mp4Controllers.controller('TaskdetailCtrl', ['$scope','$routeParams','$http','$window', 
+                          function ($scope,$routeParams, $http, $window){
+
+    $scope.task = "";
+    console.log($routeParams.taskID);
+    var url =$window.sessionStorage.baseurl + '/tasks?where={"_id":"' + $routeParams.taskID+ '"}';
+    $http.get(url).success(function(data){
+      console.log(data.data[0]);
+      $scope.task = data.data[0];
+    }).error(function(data){
+      console.log(data);
+    });
+
+}]);
+
+
+mp4Controllers.controller('EditTaskCtrl', ['$scope','$routeParams','$http','$window', 
+                          function ($scope,$routeParams, $http, $window){
+
+    $scope.task = "";
+    $scope.users = "";
+    console.log($routeParams.taskID);
+    var url =$window.sessionStorage.baseurl + '/tasks?where={"_id":"' + $routeParams.taskID+ '"}';
+    $http.get(url).success(function(data){
+      console.log(data.data[0]);
+      $scope.task = data.data[0];
+      $scope.users = "";
+      $scope.name = data.data[0].name;
+      $scope.description = data.data[0].description;
+      $scope.deadline = data.data[0].deadline;
+      if(data.data[0].completed ==true){
+        $scope.task_complete = 1;
+      }else{
+        $scope.task_complete = -1;
+      }
+      var urlselect = '?select={"name":1,"_id":1}';
+      var url = $window.sessionStorage.baseurl + "/users" + urlselect;
+        $http.get(url).success(function(data2){
+          console.log(data2);
+          $scope.users = data2.data;
+        }).error(function(data2,status,header, config){
+          console.log(data2);
+          console.log(status);
+          console.log(config);
+        });
+    }).error(function(data){
+      console.log(data);
+    });
+
+}]);
+
 /*
 mp4Controllers.controller('FirstController', ['$scope', 'CommonData'  , function($scope, CommonData) {
   $scope.data = "";

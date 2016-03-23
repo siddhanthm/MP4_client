@@ -6,22 +6,25 @@
 			Name<font color="red">*</font>
 			<input type="text" name="name" 
         		placeholder="Name"
-        		ng-model="user.name"
+        		ng-model="name"
         		ng-required="true">
         	<p class="error validationerror text-center" ng-show="myform.name.$invalid && myform.name.$touched">
-        		You must fill out your name.
+        		Please enter a name.
         	</p>
 			Email<font color="red">*</font>
 			<input type="email" name="email"
         		placeholder="Email" 
-        		ng-model="user.email"
-        		ng-required="true">
+        		ng-model="email"
+        		ng-required="true"
+        		>
         	<p class="error validationerror text-center" ng-show="myform.email.$invalid && myform.email.$touched">
         		Enter a valid email-id.
         	</p>
-
 		</fieldset>
 		<button type="submit" class="button">Submit</button>
+		<div class="small-12 text-center">
+			<b>{{message}}</b>
+       	</div>
 	</form>
 	</div>
 </div>
