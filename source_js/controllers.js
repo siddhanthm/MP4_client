@@ -1,4 +1,4 @@
-var mp4Controllers = angular.module('mp4Controllers', []);
+var mp4Controllers = angular.module('mp4Controllers', ['720kb.datepicker']);
 var url = "http://www.uiucwp.com:4000/api";
 mp4Controllers.controller('SettingsController', ['$scope' , '$window' , function($scope, $window) {
   $scope.url = $window.sessionStorage.baseurl;
@@ -117,14 +117,6 @@ mp4Controllers.controller('AddTask', ['$scope','$window','$http', function ($sco
   $scope.users = "";
   var urlselect = '?select={"name":1,"_id":1}';
   var url = $window.sessionStorage.baseurl + "/users" + urlselect;
-  
-  /*$http.get(url).then(function successCallback(response){
-    console.log(response);
-    $scope.users = response.data.data;
-  }, function errorCallback(response){
-      console.log("failed to get data");
-  });*/
-
   $http.get(url).success(function(data){
     console.log(data);
     $scope.users = data.data;
@@ -134,9 +126,21 @@ mp4Controllers.controller('AddTask', ['$scope','$window','$http', function ($sco
     console.log(config);
   });
 
+
+
   $scope.register = function(){
-    console.log($scope.task);
+    var data2send = {"completed":false,"name":$scope.name,"assignedUserName":$scope.tasks_under, "deadline":$scope.deadline
+    , "description":$scope.description};
+    console.log(data2send);
+    var url2send = $window.sessionStorage.baseurl + "/tasks";
+    $http.post(url2send, data2send).success(function(data){
+      $scope.message = data.message;
+    }).error(function(data){
+      $scope.message = data.message;
+    });
+
   }
+
 }]);
 
 mp4Controllers.controller('UserDetail', ['$scope','$routeParams','$http','$window', 
@@ -149,23 +153,36 @@ mp4Controllers.controller('UserDetail', ['$scope','$routeParams','$http','$windo
   var url2;
   var url3;
   var url = $window.sessionStorage.baseurl + '/users?where={"_id":"' + $routeParams.userID +'"}';
-  $http.get(url).success(function(data){
-    $scope.user = data.data[0];
-    url2 = $window.sessionStorage.baseurl + '/tasks?where={"assignedUserName":"'+$scope.user.name+'","completed":false}';
-    url3 =  $window.sessionStorage.baseurl + '/tasks?where={"assignedUserName":"'+$scope.user.name+'","completed":true}';
-    $http.get(url2).success(function(data2){
-      $scope.intask = data2.data;
-    });
-    $http.get(url3).success(function(data3){
-      $scope.comp = data3.data;
-      console.log($scope.comp);
-    });
 
-  });
-
+  $scope.getData = function(){
+    $http.get(url).success(function(data){
+      $scope.user = data.data[0];
+      url2 = $window.sessionStorage.baseurl + '/tasks?where={"assignedUserName":"'+$scope.user.name+'","completed":false}';
+      url3 =  $window.sessionStorage.baseurl + '/tasks?where={"assignedUserName":"'+$scope.user.name+'","completed":true}';
+      $http.get(url2).success(function(data2){
+        $scope.intask = data2.data;
+      });
+      $http.get(url3).success(function(data3){
+        $scope.comp = data3.data;
+        console.log($scope.comp);
+      });
+    });
+  }
   $scope.loadcomp = function(){
     $scope.compshow = $scope.comp;
   };
+
+  $scope.makeCompleted = function(x){
+    x.completed = true;
+    var url2put = $window.sessionStorage.baseurl + "/tasks/" + $routeParams.userID;
+    console.log(url2put);
+    $http.put(url2put,x).success(function(data){
+      console.log(data);
+    });
+    $scope.getData();
+    //console.log("after", x);
+  }
+  $scope.getData();
 
 }]);
 
@@ -174,14 +191,32 @@ mp4Controllers.controller('TaskdetailCtrl', ['$scope','$routeParams','$http','$w
 
     $scope.task = "";
     console.log($routeParams.taskID);
-    var url =$window.sessionStorage.baseurl + '/tasks?where={"_id":"' + $routeParams.taskID+ '"}';
-    $http.get(url).success(function(data){
-      console.log(data.data[0]);
-      $scope.task = data.data[0];
-    }).error(function(data){
-      console.log(data);
-    });
+    var url =$window.sessionStorage.baseurl + '/tasks/' + $routeParams.taskID;
+    console.log(url);
+    
 
+    $scope.getData = function(){
+      $http.get(url).success(function(data){
+        console.log(data.data);
+        $scope.task = data.data;
+        data2put = data.data;
+      }).error(function(data){
+        console.log(data);
+      });
+    }
+    $scope.changeStatus = function(){
+      console.log("changed");
+      data2put.completed = !($scope.task.completed);
+      console.log(data2put);
+      $http.put(url, data2put).success(function(data){
+        console.log("returned data" , data);
+        $scope.task = data.data;
+        data2put = data.data;
+      }).error(function(data){
+        console.log("returned data error" , data);
+      });
+    }
+    $scope.getData();
 }]);
 
 

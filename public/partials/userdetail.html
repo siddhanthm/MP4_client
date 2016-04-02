@@ -6,19 +6,24 @@
 		<div class="small-12 other-text row">
 			<div class="small-12 task_user">Task Pending:</div>
 			<div ng-repeat="task in intask" class="small-12 task_item">
-				<a href="#task/{{task._id}}">
-					<div class="small-6 columns text-left"><b>{{task.name}}</b></div>
-	        		<div class="small-4 columns text-left">{{task.deadline}}</div>
-	        		<div class="small-2 columns text-center"><i class="fa fa-check"></i></div>
-        		</a>
+				<div class="small-10 columns">
+					<a href="#task/{{task._id}}">
+						<div class="small-6 columns text-left"><b>{{task.name}}</b></div>
+		        		<div class="small-6 columns text-left">{{task.deadline}}</div>
+		        	</a>
+	        	</div>
+	        	<div class="small-2 columns text-center">
+	        		<i class="fa fa-check" ng-click="makeCompleted(task)"></i>
+	        	</div>
+        		
 			</div>
 		</div>
 		<div class="small-12 other-text row">
 			<div class="small-12 task_user" ng-click="loadcomp()"><a>Task Completed:</a></div>
 			<div ng-repeat="task in compshow" class="small-12 task_item">
 				<a href="#task/{{task._id}}">
-					<div class="small-6 columns text-left"><b>{{task.name}}</b></div>
-	        		<div class="small-4 columns text-left">{{task.deadline}}</div>
+					<div class="small-5 columns text-left"><b>{{task.name}}</b></div>
+	        		<div class="small-5 columns text-left">{{task.deadline}}</div>
 	        		<div class="small-2 columns text-center"><i class="fa fa-check task-done"></i></div>
         		</a>
 			</div>
