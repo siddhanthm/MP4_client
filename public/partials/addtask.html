@@ -34,7 +34,7 @@
             <br>
         	User
             <select ng-model="tasks_under">
-                  <option ng-repeat="user in users" value = "{{user.name}}">{{user.name}}</option>
+                  <option ng-repeat="user in users" value = "{{users.indexOf(user)}}">{{user.name}}</option>
             </select>
                
 

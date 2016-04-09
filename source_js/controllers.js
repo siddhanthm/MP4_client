@@ -1,14 +1,12 @@
 var mp4Controllers = angular.module('mp4Controllers', ['720kb.datepicker']);
 var url = "http://www.uiucwp.com:4000/api";
+
 mp4Controllers.controller('SettingsController', ['$scope' , '$window' , function($scope, $window) {
   $scope.url = $window.sessionStorage.baseurl;
-
   $scope.setUrl = function(){
     $window.sessionStorage.baseurl = $scope.url;
     $scope.displayText = "URL set: " + $scope.url;
-
   };
-
 }]);
 
 mp4Controllers.controller('UserController', ['$scope','$http','$window','$location', function ($scope, $http, $window, $location) {
@@ -19,7 +17,7 @@ mp4Controllers.controller('UserController', ['$scope','$http','$window','$locati
     $scope.users = data.data;
   });
 
-  $scope.delete = function(x){
+  /*$scope.delete = function(x){
     console.log(x);
     var deleteurl = $window.sessionStorage.baseurl + '/users/' + x;
     console.log(deleteurl);
@@ -29,7 +27,7 @@ mp4Controllers.controller('UserController', ['$scope','$http','$window','$locati
         $scope.users = data.data;
       });
     });
-  }
+  }*/
 }]);
 
 mp4Controllers.controller('AddUser', ['$scope','$http','$window', function ($scope, $http, $window) {
@@ -41,7 +39,7 @@ mp4Controllers.controller('AddUser', ['$scope','$http','$window', function ($sco
       var url = $window.sessionStorage.baseurl + '/users?where={"email":"' + $scope.email +'"}';
       $http.get(url).success(function(data,status){
         if(data.data.length == 1){
-          $scope.message = "User Already Exist";
+          $scope.message = "User Already Exists";
         }else{
           var data2send = {"name":$scope.name, "email":$scope.email};
           var urlpost = $window.sessionStorage.baseurl + "/users";
@@ -55,6 +53,7 @@ mp4Controllers.controller('AddUser', ['$scope','$http','$window', function ($sco
         console.log(data);
         console.log(status);
         console.log(config);
+        $scope.message = "User cannot be lookedup";
       });
     }
   }
@@ -115,7 +114,7 @@ mp4Controllers.controller('TasksCtrl', ['$scope','$http','$window', function ($s
 
 mp4Controllers.controller('AddTask', ['$scope','$window','$http', function ($scope, $window, $http) {
   $scope.users = "";
-  var urlselect = '?select={"name":1,"_id":1}';
+  var urlselect = '';
   var url = $window.sessionStorage.baseurl + "/users" + urlselect;
   $http.get(url).success(function(data){
     console.log(data);
@@ -129,12 +128,37 @@ mp4Controllers.controller('AddTask', ['$scope','$window','$http', function ($sco
 
 
   $scope.register = function(){
-    var data2send = {"completed":false,"name":$scope.name,"assignedUserName":$scope.tasks_under, "deadline":$scope.deadline
-    , "description":$scope.description};
-    console.log(data2send);
+    console.log($scope.tasks_under);
+    //console.log("name", $scope.tasks_under.subsrt(0,$scope.tasks_under.find(":")));
+    var description;
+    if($scope.description == undefined){
+      description = "";
+    }else{
+      description = $scope.description;
+    }
+    if($scope.tasks_under != undefined){
+      var name = $scope.users[$scope.tasks_under].name;
+      var id = $scope.users[$scope.tasks_under]._id;
+      var data2send = {"completed":false,"name":$scope.name,"assignedUserName":name, "deadline":$scope.deadline
+      , "description":description, "assignedUser":id};
+    }else{
+      var data2send = {"completed":false,"name":$scope.name,"deadline":$scope.deadline
+      , "description":description};
+    }
+    //console.log(data2send);
+    //var userpending = $scope.users[$scope.tasks_under].pendingTasks.push();
     var url2send = $window.sessionStorage.baseurl + "/tasks";
     $http.post(url2send, data2send).success(function(data){
       $scope.message = data.message;
+      if($scope.tasks_under != undefined){
+        //console.log("to push",data.data._id);
+        var persontoedit = $scope.users[$scope.tasks_under];
+        //console.log("dataput",persontoedit.pendingTasks);
+        persontoedit.pendingTasks.push(data.data._id);
+        //console.log("dataput after",persontoedit.pendingTasks);
+        //console.log("dataput after data",persontoedit);
+        $http.put(url + "/" + id, persontoedit);
+      }
     }).error(function(data){
       $scope.message = data.message;
     });
@@ -150,6 +174,7 @@ mp4Controllers.controller('UserDetail', ['$scope','$routeParams','$http','$windo
   $scope.intask = "";
   $scope.comp = "";
   $scope.compshow = "";
+  var loadbutton = false;
   var url2;
   var url3;
   var url = $window.sessionStorage.baseurl + '/users?where={"_id":"' + $routeParams.userID +'"}';
@@ -157,14 +182,21 @@ mp4Controllers.controller('UserDetail', ['$scope','$routeParams','$http','$windo
   $scope.getData = function(){
     $http.get(url).success(function(data){
       $scope.user = data.data[0];
-      url2 = $window.sessionStorage.baseurl + '/tasks?where={"assignedUserName":"'+$scope.user.name+'","completed":false}';
-      url3 =  $window.sessionStorage.baseurl + '/tasks?where={"assignedUserName":"'+$scope.user.name+'","completed":true}';
+
+      url2 = $window.sessionStorage.baseurl + '/tasks?where={"assignedUser":"'+$scope.user._id+'","completed":false}';
+      url3 =  $window.sessionStorage.baseurl + '/tasks?where={"assignedUser":"'+$scope.user._id+'","completed":true}';
       $http.get(url2).success(function(data2){
         $scope.intask = data2.data;
       });
       $http.get(url3).success(function(data3){
         $scope.comp = data3.data;
+        if(loadbutton){
+          $scope.compshow = $scope.comp;
+        }
+        loadbutton = true;
         console.log($scope.comp);
+      }).error(function(){
+        console.log("can't get completed task");
       });
     });
   }
@@ -174,13 +206,34 @@ mp4Controllers.controller('UserDetail', ['$scope','$routeParams','$http','$windo
 
   $scope.makeCompleted = function(x){
     x.completed = true;
-    var url2put = $window.sessionStorage.baseurl + "/tasks/" + $routeParams.userID;
+    var url2put = $window.sessionStorage.baseurl + "/tasks/" + x._id;
     console.log(url2put);
-    $http.put(url2put,x).success(function(data){
+    pendingtask = $scope.user.pendingTasks;
+
+    var item;
+    for(item in pendingtask){
+      console.log("x._id", x._id);
+      console.log("pendingtask[item]", pendingtask[item]);
+      if(pendingtask[item] == x._id){
+        console.log("inside for loop");
+        pendingtask.splice(item, 1);
+      }
+    }
+    console.log("after",pendingtask);
+    $scope.user.pendingTasks = pendingtask;
+    console.log("user", $scope.user);
+    var data2send = $scope.user;
+
+
+    $http.put(url2put,x).then(function(data){
       console.log(data);
+      $http.put($window.sessionStorage.baseurl + "/users/"+ $routeParams.userID,data2send).then(function(data2){
+        console.log("user updated", data2);
+        $scope.getData();
+      });
     });
-    $scope.getData();
-    //console.log("after", x);
+   
+    console.log("Reached here");
   }
   $scope.getData();
 
@@ -205,15 +258,41 @@ mp4Controllers.controller('TaskdetailCtrl', ['$scope','$routeParams','$http','$w
       });
     }
     $scope.changeStatus = function(){
-      console.log("changed");
+      //console.log("changed");
+      var current = $scope.task.completed;
       data2put.completed = !($scope.task.completed);
-      console.log(data2put);
-      $http.put(url, data2put).success(function(data){
-        console.log("returned data" , data);
-        $scope.task = data.data;
-        data2put = data.data;
-      }).error(function(data){
-        console.log("returned data error" , data);
+      //console.log(data2put);
+      $http.put(url, data2put).then(function(data){
+        //console.log("returned data" , data);
+        $scope.task = data.data.data;
+        //console.log("Into task", $scope.task);
+        data2put = data.data.data;
+        var id = data.data.data.assignedUser;
+        if(id !=""){
+          $http.get($window.sessionStorage.baseurl + "/users/" + id).then(function(data){
+            var userdata = data.data.data;
+            //console.log("userdata",userdata);
+            if(current == true){
+              userdata.pendingTasks.push($routeParams.taskID);
+              $http.put($window.sessionStorage.baseurl + "/users/" + id, userdata).then(function(data2){
+                console.log(data2);
+              });
+            }else{
+              for(item in userdata.pendingTasks){
+                  if(userdata.pendingTasks == $routeParams.taskID){
+                      //console.log("inside for loop");
+                      userdata.pendingTasks.splice(item, 1);
+                  }
+              }
+              $http.put($window.sessionStorage.baseurl + "/users/" + id, userdata).then(function(data2){
+                console.log(data2);
+              });
+            }
+          });
+
+        }
+      }, function(data2){
+        console.log("returned data error" , data2);
       });
     }
     $scope.getData();
