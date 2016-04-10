@@ -19,7 +19,8 @@
 			</div>
 		</div>
 		<div class="small-12 other-text row">
-			<div class="small-12 task_user" ng-click="loadcomp()"><a>Task Completed:</a></div>
+			<div class="small-12 task_user" ng-click="loadcomp()"><a>Task Completed:</a>
+			<i class="fa fa-refresh" ng-click="getData()" ng-show="refresh"></i></div>
 			<div ng-repeat="task in compshow" class="small-12 task_item">
 				<a href="#task/{{task._id}}">
 					<div class="small-5 columns text-left"><b>{{task.name}}</b></div>

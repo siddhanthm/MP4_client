@@ -16,18 +16,24 @@
         		ng-model="description">
 
         	Deadline<font color="red">*</font>
-        	<input type="text" name="deadline" 
-        		ng-model="deadline"
-        		ng-required="true">
+            <datepicker>
+                <input ng-model="deadline"
+                 name = "deadline"
+                 type="text"
+                 placeholder="Choose Date"
+                 ng-required = "true"
+                 />
+                 <!--2016-04-10T12:57:18.000Z-->
+            </datepicker>
         	<p class="error validationerror text-center" ng-show="myform.deadline.$invalid && myform.deadline.$touched">
         		You must fill out the task's deadline.
         	</p>
+            <br>
 
         	User:<br>
         	<b> Assigned User: </b> {{task.assignedUserName}}<br>
-            <select ng-model="taskchanged.tasks_under">
-            	<option value = "Noone">Not Assigned</option>
-                <option ng-repeat="user in users" value = "{{user._id}}">{{user.name}}</option>
+            <select ng-model="tasks_under">
+                <option ng-repeat="user in users" value = "{{users.indexOf(user)}}">{{user.name}}</option>
             </select>
 
             Completed<br>
@@ -38,9 +44,11 @@
                
 
 		</fieldset>
-		<div class="small-12 row">
-			<button type="submit" class="button">Update</button>
-		</div>
-	</form>
+    		<div class="small-12 row">
+    			<button type="submit" class="button">Update</button>
+    		</div>
+            <div class="columns medium-10 medium-centered row text-center"> {{message}}</div>
+        </form>
+        </div>
 	</div>
 </div>

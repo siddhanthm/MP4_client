@@ -34,17 +34,22 @@
 		</div>
 	</div>
 	<div class="row large-12 arrow">
-		<div class="large-6 columns text-center" ng-click="pagination(-1)"><i class="fa fa-arrow-left"></i></div>
-		<div class="large-6 columns text-center" ng-click="pagination(1)"><i class="fa fa-arrow-right"></i></div>
+		<div class="large-3 columns text-center" ng-click="pagination(-1)"><i class="fa fa-arrow-left"></i></div>
+		<div class="large-6 columns text-center"><b>{{message}}</b></div>
+		<div class="large-3 columns text-center" ng-click="pagination(1)"><i class="fa fa-arrow-right"></i></div>
 	</div>
 	<div class="row large-12">
 		    <div ng-repeat="task in tasks" class = "tasklist large-12">
-      			<a href="#task/{{task._id}}">
-        			<div class="small-5 columns text-left"><b>{{task.name}}</b></div>
-        			<div class="small-3 columns text-left"><i>{{task.assignedUserName}}</i></div>
-        			<div class="small-2 columns text-left">{{task.deadline}}</div>
-        			<div class="small-2 columns text-center"><i class="fa fa-trash"></i></div>
-      			</a>
+      			<div class="small-10 columns">
+	      			<a href="#task/{{task._id}}">
+	        			<div class="small-4 columns text-left"><b>{{task.name}}</b></div>
+	        			<div class="small-4 columns text-left"><i>{{task.assignedUserName}}</i></div>
+	        			<div class="small-2 columns text-left">{{task.deadline}}</div>
+	        		</a>
+        		</div>
+        		<div class="small-2 columns text-center">
+        			<i class="fa fa-trash" ng-click="deleteTask(task)"></i>
+        		</div>
     		</div>
 	</div>
 </div>
