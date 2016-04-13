@@ -1,5 +1,4 @@
 var mp4Controllers = angular.module('mp4Controllers', ['720kb.datepicker']);
-var url = "http://www.uiucwp.com:4000/api";
 
 mp4Controllers.controller('SettingsController', ['$scope' , '$window' , function($scope, $window) {
   $scope.url = $window.sessionStorage.baseurl;
